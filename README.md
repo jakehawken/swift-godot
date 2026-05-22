@@ -88,6 +88,7 @@ Use **Project > Reload Current Project** in the Godot editor after running `make
 ## Debugging in Xcode
 
 Xcode can attach its debugger to a running Godot process so you can set Swift breakpoints in your extension.
+The Makefile also includes terminal LLDB helpers if you prefer a command-line debugger.
 
 ### One-time setup: re-sign Godot
 
@@ -126,6 +127,36 @@ Xcode's indexer needs to build the package itself before it can resolve SwiftGod
 5. In the menu bar choose **Debug › Attach to Process by PID or Name…**, type `Godot`, and click **Attach**.
 
 Xcode will attach to the Godot process and stop at your Swift breakpoints.
+
+### Debugging with LLDB from Make
+
+For command-line debugging, you can launch Godot under LLDB:
+
+```bash
+make debug-run
+```
+
+At the LLDB prompt, type:
+
+```text
+run
+```
+
+Or attach LLDB to an already-running Godot process:
+
+```bash
+make debug-attach
+```
+
+Use either `make debug-run` or `make debug-attach`, not both. `debug-run` launches Godot under LLDB from the start; `debug-attach` attaches to a Godot process you already started.
+
+`make debug-attach` builds first, verifies the copied dylibs, and then runs `lldb -n Godot`. If your Godot process uses a different name, pass it with `GODOT_PROCESS`:
+
+```bash
+make debug-attach GODOT_PROCESS=Godot
+```
+
+These targets use terminal LLDB, not Xcode's GUI debugger. Breakpoints set in Xcode do not automatically carry over to terminal LLDB. To use Xcode breakpoints in Xcode, use **Debug > Attach to Process by PID or Name...** as described above.
 
 ## Project notes
 

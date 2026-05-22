@@ -4,6 +4,8 @@ LIB_NAME        := libMyExtension
 EXTENSION_NAME  := $(patsubst lib%,%,$(LIB_NAME))
 GDEXTENSION     := GodotProject/$(EXTENSION_NAME).gdextension
 GODOT_BIN       ?= /Applications/Godot.app/Contents/MacOS/Godot
+GODOT_PROCESS   ?= Godot
+LLDB            ?= lldb
 
 ifeq ($(VERBOSE),1)
 SWIFT_BUILD_FLAGS :=
@@ -13,7 +15,7 @@ SWIFT_BUILD_FLAGS := --quiet
 Q := @
 endif
 
-.PHONY: all debug release verify doctor status open clean-bin clean
+.PHONY: all debug release verify doctor status open debug-run debug-attach clean-bin clean
 
 # Default: debug build
 all: debug
@@ -71,6 +73,17 @@ open:
 		(echo "Godot executable not found: $(GODOT_BIN)" >&2; \
 		 echo "Set GODOT_BIN=/path/to/Godot when running make open." >&2; exit 1)
 	"$(GODOT_BIN)" --path GodotProject
+
+debug-run: debug verify
+	@test -x "$(GODOT_BIN)" || \
+		(echo "Godot executable not found: $(GODOT_BIN)" >&2; \
+		 echo "Set GODOT_BIN=/path/to/Godot when running make debug-run." >&2; exit 1)
+	@echo "Launching Godot under LLDB. Type 'run' at the LLDB prompt to start."
+	$(LLDB) -- "$(GODOT_BIN)" --path GodotProject
+
+debug-attach: debug verify
+	@echo "Attaching LLDB to process named $(GODOT_PROCESS). Start the project in Godot first if it is not already running."
+	$(LLDB) -n "$(GODOT_PROCESS)"
 
 clean-bin:
 	$(Q)rm -f "$(GODOT_BIN_DIR)/$(LIB_NAME).dylib" "$(GODOT_BIN_DIR)/libSwiftGodot.dylib"

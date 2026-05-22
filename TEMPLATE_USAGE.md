@@ -192,6 +192,17 @@ If Godot is installed somewhere else:
 make open GODOT_BIN=/path/to/Godot
 ```
 
+For command-line debugging, generated projects also include LLDB helpers:
+
+```bash
+make debug-run     # launch Godot under LLDB
+make debug-attach  # attach LLDB to an already-running Godot process
+```
+
+Use either `make debug-run` or `make debug-attach`, not both. `debug-run` launches Godot under LLDB from the start; `debug-attach` attaches to a Godot process you already started.
+
+These targets use terminal LLDB rather than Xcode's GUI debugger. Breakpoints set in Xcode do not automatically carry over to terminal LLDB. For Xcode breakpoints, attach from Xcode with **Debug > Attach to Process by PID or Name...**.
+
 Confirm:
 
 - The project opens without GDExtension load errors.
