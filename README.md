@@ -46,6 +46,8 @@ After building, you can verify that the copied dylibs and GDExtension metadata a
 make verify
 ```
 
+`make verify` also checks `GodotProject/.godot/extension_list.cfg`, which is intentionally kept in the repo so Godot loads `MyExtension.gdextension` from a clean checkout. Other `.godot` editor/cache files remain ignored.
+
 `make doctor` is also available as an alias for `make verify`.
 
 To remove only the copied dylibs from `GodotProject/bin/` without clearing SwiftPM's build cache:

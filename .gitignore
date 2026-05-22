@@ -6,7 +6,10 @@ GodotProject/bin/*.dylib
 GodotProject/bin/*.so
 GodotProject/bin/*.dll
 
-# Godot editor metadata
-GodotProject/.godot/
+# Godot editor metadata. Keep the minimal extension list tracked so Godot
+# reliably loads the GDExtension from a clean checkout or scaffolded project.
+GodotProject/.godot/*
+!GodotProject/.godot/.gdignore
+!GodotProject/.godot/extension_list.cfg
 
 *.xcuserstate

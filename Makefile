@@ -3,6 +3,7 @@ GODOT_BIN_DIR   := GodotProject/bin
 LIB_NAME        := libMyExtension
 EXTENSION_NAME  := $(patsubst lib%,%,$(LIB_NAME))
 GDEXTENSION     := GodotProject/$(EXTENSION_NAME).gdextension
+EXTENSION_LIST  := GodotProject/.godot/extension_list.cfg
 GODOT_BIN       ?= /Applications/Godot.app/Contents/MacOS/Godot
 GODOT_PROCESS   ?= Godot
 LLDB            ?= lldb
@@ -50,6 +51,11 @@ verify:
 		(echo "Missing copied SwiftGodot runtime dylib: $(GODOT_BIN_DIR)/libSwiftGodot.dylib" >&2; exit 1)
 	@test -f "$(GDEXTENSION)" || \
 		(echo "Missing GDExtension file: $(GDEXTENSION)" >&2; exit 1)
+	@test -f "$(EXTENSION_LIST)" || \
+		(echo "Missing Godot extension list: $(EXTENSION_LIST)" >&2; \
+		 echo "Create it with: echo 'res://$(EXTENSION_NAME).gdextension' > $(EXTENSION_LIST)" >&2; exit 1)
+	@grep -qx 'res://$(EXTENSION_NAME).gdextension' "$(EXTENSION_LIST)" || \
+		(echo "$(EXTENSION_LIST) must contain res://$(EXTENSION_NAME).gdextension" >&2; exit 1)
 	@grep -q 'macos.debug = "res://bin/$(LIB_NAME).dylib"' "$(GDEXTENSION)" || \
 		(echo "$(GDEXTENSION) does not point macos.debug at res://bin/$(LIB_NAME).dylib" >&2; exit 1)
 	@grep -q 'macos.release = "res://bin/$(LIB_NAME).dylib"' "$(GDEXTENSION)" || \

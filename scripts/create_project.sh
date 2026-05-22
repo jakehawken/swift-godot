@@ -136,6 +136,10 @@ if [[ -f "$old_gdextension_uid" ]]; then
     mv "$old_gdextension_uid" "$new_gdextension_uid"
 fi
 
+mkdir -p "$destination/GodotProject/.godot"
+touch "$destination/GodotProject/.godot/.gdignore"
+printf 'res://%s.gdextension\n' "$project_name" > "$destination/GodotProject/.godot/extension_list.cfg"
+
 replace_files=(
     "$destination/README.md"
     "$destination/PROJECT_CONTEXT.md"

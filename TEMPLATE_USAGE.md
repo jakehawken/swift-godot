@@ -175,6 +175,7 @@ make verify
 ```
 
 `make verify` checks that the copied extension dylib exists, `libSwiftGodot.dylib` exists, the `.gdextension` file points to the expected macOS dylib, and the Swift package product name matches the GDExtension library name.
+It also checks `GodotProject/.godot/extension_list.cfg`, which is intentionally kept minimal so Godot loads the GDExtension from a fresh scaffold. Other `.godot` editor/cache files remain ignored.
 
 `make doctor` is also available as an alias for `make verify`.
 
