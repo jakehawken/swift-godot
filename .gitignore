@@ -5,6 +5,7 @@ SwiftExtension/.build/
 GodotProject/bin/*.dylib
 GodotProject/bin/*.so
 GodotProject/bin/*.dll
+GodotProject/.debug/
 
 # Godot editor metadata. Keep the minimal extension list tracked so Godot
 # reliably loads the GDExtension from a clean checkout or scaffolded project.

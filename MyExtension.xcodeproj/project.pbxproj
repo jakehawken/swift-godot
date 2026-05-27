@@ -1,0 +1,185 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXFileReference section */
+		2F57AB8C2DDB46E100000010 = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		2F57AB8D2DDB46E100000011 = {isa = PBXFileReference; lastKnownFileType = text; path = PROJECT_CONTEXT.md; sourceTree = "<group>"; };
+		2F57AB902DDB46E100000014 = {isa = PBXFileReference; lastKnownFileType = text; path = TEMPLATE_USAGE.md; sourceTree = "<group>"; };
+		2F57AB912DDB46E100000015 = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		2F57AB922DDB46E100000016 = {isa = PBXFileReference; lastKnownFileType = text; path = godot-debug.entitlements; sourceTree = "<group>"; };
+		2F57AB932DDB46E100000017 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		2F57AB942DDB46E100000018 = {isa = PBXFileReference; lastKnownFileType = text; path = Package.resolved; sourceTree = "<group>"; };
+		2F57AB952DDB46E100000019 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyExtension.swift; sourceTree = "<group>"; };
+		2F57AB9D2DDB46E100000027 = {isa = PBXFileReference; lastKnownFileType = text; path = project.godot; sourceTree = "<group>"; };
+		2F57AB9E2DDB46E100000028 = {isa = PBXFileReference; lastKnownFileType = text; path = MyExtension.gdextension; sourceTree = "<group>"; };
+		2F57AB9F2DDB46E100000029 = {isa = PBXFileReference; lastKnownFileType = text; path = MyExtension.gdextension.uid; sourceTree = "<group>"; };
+		2F57ABA02DDB46E100000030 = {isa = PBXFileReference; lastKnownFileType = text; path = main.tscn; sourceTree = "<group>"; };
+		2F57ABA12DDB46E100000031 = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = create_project.sh; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		2F57AB842DDB46E100000002 = {
+			isa = PBXGroup;
+			children = (
+				2F57AB8C2DDB46E100000010,
+				2F57AB8D2DDB46E100000011,
+				2F57AB902DDB46E100000014,
+				2F57AB912DDB46E100000015,
+				2F57AB922DDB46E100000016,
+				2F57ABA22DDB46E100000032,
+				2F57ABA72DDB46E100000037,
+				2F57ABAA2DDB46E100000040,
+				2F57AB852DDB46E100000003,
+			);
+			sourceTree = "<group>";
+		};
+		2F57AB852DDB46E100000003 = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2F57ABA22DDB46E100000032 = {
+			isa = PBXGroup;
+			children = (
+				2F57AB932DDB46E100000017,
+				2F57AB942DDB46E100000018,
+				2F57ABA32DDB46E100000033,
+			);
+			path = SwiftExtension;
+			sourceTree = "<group>";
+		};
+		2F57ABA32DDB46E100000033 = {
+			isa = PBXGroup;
+			children = (
+				2F57AB952DDB46E100000019,
+			);
+			path = Sources/MyExtension;
+			sourceTree = "<group>";
+		};
+		2F57ABA72DDB46E100000037 = {
+			isa = PBXGroup;
+			children = (
+				2F57AB9D2DDB46E100000027,
+				2F57AB9E2DDB46E100000028,
+				2F57AB9F2DDB46E100000029,
+				2F57ABA82DDB46E100000038,
+			);
+			path = GodotProject;
+			sourceTree = "<group>";
+		};
+		2F57ABA82DDB46E100000038 = {
+			isa = PBXGroup;
+			children = (
+				2F57ABA02DDB46E100000030,
+			);
+			path = scenes;
+			sourceTree = "<group>";
+		};
+		2F57ABAA2DDB46E100000040 = {
+			isa = PBXGroup;
+			children = (
+				2F57ABA12DDB46E100000031,
+			);
+			path = scripts;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		2F57AB862DDB46E100000004 = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "debug verify";
+			buildConfigurationList = 2F57AB892DDB46E100000007;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = "MyExtension Godot";
+			passBuildSettingsInEnvironment = 0;
+			productName = "MyExtension Godot";
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		2F57AB812DDB46E100000001 = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1640;
+			};
+			buildConfigurationList = 2F57AB822DDB46E100000000;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2F57AB842DDB46E100000002;
+			productRefGroup = 2F57AB852DDB46E100000003;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2F57AB862DDB46E100000004,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		2F57AB872DDB46E100000005 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		2F57AB882DDB46E100000006 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		2F57AB8A2DDB46E100000008 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		2F57AB8B2DDB46E100000009 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2F57AB822DDB46E100000000 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F57AB872DDB46E100000005,
+				2F57AB882DDB46E100000006,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		2F57AB892DDB46E100000007 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F57AB8A2DDB46E100000008,
+				2F57AB8B2DDB46E100000009,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2F57AB812DDB46E100000001;
+}

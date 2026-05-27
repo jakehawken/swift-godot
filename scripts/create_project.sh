@@ -136,6 +136,18 @@ if [[ -f "$old_gdextension_uid" ]]; then
     mv "$old_gdextension_uid" "$new_gdextension_uid"
 fi
 
+old_xcodeproj="$destination/MyExtension.xcodeproj"
+new_xcodeproj="$destination/$project_name.xcodeproj"
+if [[ -d "$old_xcodeproj" ]]; then
+    mv "$old_xcodeproj" "$new_xcodeproj"
+fi
+
+old_scheme="$new_xcodeproj/xcshareddata/xcschemes/MyExtension-Godot.xcscheme"
+new_scheme="$new_xcodeproj/xcshareddata/xcschemes/$project_name-Godot.xcscheme"
+if [[ -f "$old_scheme" ]]; then
+    mv "$old_scheme" "$new_scheme"
+fi
+
 mkdir -p "$destination/GodotProject/.godot"
 touch "$destination/GodotProject/.godot/.gdignore"
 printf 'res://%s.gdextension\n' "$project_name" > "$destination/GodotProject/.godot/extension_list.cfg"
@@ -148,6 +160,8 @@ replace_files=(
     "$destination/GodotProject/project.godot"
     "$new_gdextension"
     "$new_source_file"
+    "$new_xcodeproj/project.pbxproj"
+    "$new_scheme"
     "$destination/SwiftExtension/Package.swift"
 )
 

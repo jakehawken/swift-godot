@@ -160,6 +160,7 @@ make VERBOSE=1
 ```
 
 The first build can still take a while because SwiftPM compiles SwiftGodot, SwiftSyntax, macros, and generated Godot bindings. The scaffold script intentionally does not copy `.build` into new projects; SwiftPM will reuse its normal dependency caches where it safely can.
+Run `make toolchain` to see which Swift CLI the Makefile uses. Override it with `SWIFT_BIN=/path/to/swift` if your Xcode workflow needs a specific toolchain.
 
 Confirm the Godot bin folder contains:
 
@@ -178,6 +179,21 @@ make verify
 It also checks `GodotProject/.godot/extension_list.cfg`, which is intentionally kept minimal so Godot loads the GDExtension from a fresh scaffold. Other `.godot` editor/cache files remain ignored.
 
 `make doctor` is also available as an alias for `make verify`.
+
+Generated projects also include an Xcode project:
+
+```text
+<ProjectName>.xcodeproj
+```
+
+Open it in Xcode and select the shared `<ProjectName>-Godot` scheme:
+
+- **Cmd-B** runs `make debug verify`.
+- **Cmd-R** runs `make prepare-godot-debug` and launches `GodotProject/` through Xcode's LLDB launcher.
+
+`make prepare-godot-debug` copies `/Applications/Godot.app` into `GodotProject/.debug/Godot.app` and signs that copy with `godot-debug.entitlements`, leaving the normal installed Godot app untouched. `GodotProject/.debug/` is ignored by Git.
+
+The shared scheme uses `$(PROJECT_DIR)` for project-relative paths. If your Xcode version does not expand `$(PROJECT_DIR)` in a scheme launch path, regenerate or edit the scheme to use that generated project's absolute path.
 
 Open `GodotProject/` in Godot.
 

@@ -1,10 +1,15 @@
 SWIFT_PKG_DIR   := SwiftExtension
 GODOT_BIN_DIR   := GodotProject/bin
+GODOT_DEBUG_DIR := GodotProject/.debug
 LIB_NAME        := libMyExtension
 EXTENSION_NAME  := $(patsubst lib%,%,$(LIB_NAME))
 GDEXTENSION     := GodotProject/$(EXTENSION_NAME).gdextension
 EXTENSION_LIST  := GodotProject/.godot/extension_list.cfg
+SWIFT_BIN       ?= $(shell if [ -x "$(HOME)/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin/swift" ]; then echo "$(HOME)/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin/swift"; elif [ -x "$(HOME)/.swiftly/bin/swift" ]; then echo "$(HOME)/.swiftly/bin/swift"; else command -v swift; fi)
 GODOT_BIN       ?= /Applications/Godot.app/Contents/MacOS/Godot
+GODOT_APP       ?= $(patsubst %/Contents/MacOS/Godot,%,$(GODOT_BIN))
+GODOT_DEBUG_APP ?= $(GODOT_DEBUG_DIR)/Godot.app
+GODOT_DEBUG_BIN ?= $(GODOT_DEBUG_APP)/Contents/MacOS/Godot
 GODOT_PROCESS   ?= Godot
 LLDB            ?= lldb
 
@@ -16,20 +21,27 @@ SWIFT_BUILD_FLAGS := --quiet
 Q := @
 endif
 
-.PHONY: all debug release verify doctor status open debug-run debug-attach clean-bin clean
+.PHONY: all debug release test toolchain verify doctor status open prepare-godot-debug debug-run debug-attach clean-bin clean
 
 # Default: debug build
 all: debug
 
 debug:
 	@echo "Building debug Swift extension..."
-	$(Q)cd $(SWIFT_PKG_DIR) && swift build $(SWIFT_BUILD_FLAGS)
+	$(Q)cd $(SWIFT_PKG_DIR) && "$(SWIFT_BIN)" build $(SWIFT_BUILD_FLAGS)
 	@$(MAKE) copy-libs CONFIG=debug
 
 release:
 	@echo "Building release Swift extension..."
-	$(Q)cd $(SWIFT_PKG_DIR) && swift build -c release $(SWIFT_BUILD_FLAGS)
+	$(Q)cd $(SWIFT_PKG_DIR) && "$(SWIFT_BIN)" build -c release $(SWIFT_BUILD_FLAGS)
 	@$(MAKE) copy-libs CONFIG=release
+
+test:
+	@echo "Testing Swift package..."
+	$(Q)cd $(SWIFT_PKG_DIR) && "$(SWIFT_BIN)" test
+
+toolchain:
+	@"$(SWIFT_BIN)" --version
 
 .PHONY: copy-libs
 copy-libs:
@@ -80,6 +92,19 @@ open:
 		 echo "Set GODOT_BIN=/path/to/Godot when running make open." >&2; exit 1)
 	"$(GODOT_BIN)" --path GodotProject
 
+prepare-godot-debug:
+	@test -d "$(GODOT_APP)" || \
+		(echo "Godot app not found: $(GODOT_APP)" >&2; \
+		 echo "Set GODOT_BIN=/path/to/Godot when running make prepare-godot-debug." >&2; exit 1)
+	@mkdir -p "$(GODOT_DEBUG_DIR)"
+	@if [ ! -x "$(GODOT_DEBUG_BIN)" ]; then \
+		echo "Copying Godot to $(GODOT_DEBUG_APP)..."; \
+		cp -R "$(GODOT_APP)" "$(GODOT_DEBUG_APP)"; \
+	fi
+	@echo "Signing debug Godot copy with get-task-allow..."
+	$(Q)codesign --force --deep --sign - --entitlements godot-debug.entitlements "$(GODOT_DEBUG_APP)"
+	@echo "Prepared debug Godot executable at $(GODOT_DEBUG_BIN)."
+
 debug-run: debug verify
 	@test -x "$(GODOT_BIN)" || \
 		(echo "Godot executable not found: $(GODOT_BIN)" >&2; \
@@ -96,5 +121,5 @@ clean-bin:
 	@echo "Removed copied dylibs from $(GODOT_BIN_DIR)."
 
 clean:
-	$(Q)cd $(SWIFT_PKG_DIR) && swift package clean
+	$(Q)cd $(SWIFT_PKG_DIR) && "$(SWIFT_BIN)" package clean
 	@$(MAKE) clean-bin

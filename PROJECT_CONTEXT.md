@@ -32,11 +32,25 @@ libSwiftGodot.dylib
 Godot loads `MyExtension.gdextension`, which points at `res://bin/libMyExtension.dylib` and uses the exported `swift_entry_point` symbol.
 `GodotProject/.godot/extension_list.cfg` is intentionally tracked because Godot uses it to load the GDExtension from a clean checkout. Other `.godot` editor/cache files remain ignored.
 
+Run `make toolchain` to confirm which Swift CLI the Makefile uses. `SWIFT_BIN` prefers the `swift-latest` user toolchain symlink or Swiftly before falling back to `swift`, which keeps Xcode external builds from accidentally using Xcode's default toolchain.
+
+## Xcode Notes
+
+- Open `MyExtension.xcodeproj` for the Godot run/debug workflow.
+- Use the shared `MyExtension-Godot` scheme.
+- `Cmd-B` runs the external build target, which calls `make debug verify`.
+- `Cmd-R` builds the external target, prepares a debug-signed Godot copy under `GodotProject/.debug/Godot.app`, then launches that copy through Xcode's LLDB launcher.
+- The external target intentionally sets `passBuildSettingsInEnvironment = 0`; letting Xcode inject its build environment into SwiftPM can break SwiftGodot generated builds.
+- The Makefile remains the source of truth for the Swift CLI through `SWIFT_BIN`.
+- The shared scheme uses `$(PROJECT_DIR)` rather than a checked-in absolute project path.
+- The debug Godot copy is ignored by Git and signed with `godot-debug.entitlements` because the notarized `/Applications/Godot.app` build denies debugger attach.
+
 ## Template Notes
 
 - Use `scripts/create_project.sh` to generate a renamed project from this template.
 - The script accepts `--name`, `--template`, and `--dest`, and updates the Swift package, source folder, GDExtension file, dylib references, and Godot project name.
 - The script recreates minimal `.godot` extension-load files for the generated project while leaving noisy editor/cache metadata ignored.
+- The script also renames the Xcode project and shared scheme for the generated project.
 
 ## Commit Notes
 

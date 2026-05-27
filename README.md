@@ -10,6 +10,7 @@ Run `make` commands from this repo root, where the `Makefile` lives. Open `Godot
 
 ```
 godot-swift/
+├── MyExtension.xcodeproj       # Xcode wrapper for building/running Godot
 ├── GodotProject/               # Open this folder in Godot 4
 │   ├── project.godot
 │   ├── MyExtension.gdextension # Tells Godot where to find the library
@@ -39,6 +40,7 @@ This compiles the Swift package and copies `libMyExtension.dylib` into `GodotPro
 The build also copies SwiftGodot's runtime dylib, `libSwiftGodot.dylib`, which `libMyExtension.dylib` loads at runtime.
 Build output is quiet by default; use `make VERBOSE=1` to show the full SwiftPM output.
 The first build can still take a while because SwiftPM compiles SwiftGodot, SwiftSyntax, macros, and generated Godot bindings. Generated projects do not copy `.build`; SwiftPM will reuse its normal dependency caches where it safely can.
+The Makefile uses `SWIFT_BIN` to pick a Swift CLI, preferring `~/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin/swift` or Swiftly's `~/.swiftly/bin/swift` when available. Run `make toolchain` to see the selected compiler, or pass `SWIFT_BIN=/path/to/swift` if needed.
 
 After building, you can verify that the copied dylibs and GDExtension metadata agree:
 
@@ -68,6 +70,18 @@ If Godot is installed somewhere else, pass its executable path:
 make open GODOT_BIN=/path/to/Godot
 ```
 
+### Xcode workflow
+
+Open `MyExtension.xcodeproj` in Xcode and select the shared `MyExtension-Godot` scheme.
+
+- **Cmd-B** runs the external build target, which invokes `make debug verify`.
+- **Cmd-R** builds, runs `make prepare-godot-debug`, and launches `GodotProject/` through Xcode's LLDB launcher.
+
+`make prepare-godot-debug` copies `/Applications/Godot.app` into `GodotProject/.debug/Godot.app` and signs that copy with `godot-debug.entitlements` so Xcode can debug it. The normal `/Applications/Godot.app` remains untouched, and `GodotProject/.debug/` is ignored by Git.
+
+The shared Xcode scheme uses `$(PROJECT_DIR)` instead of a checked-in absolute project path so scaffolded projects can move between folders.
+The external target deliberately keeps the Makefile as the source of truth for the Swift toolchain instead of inheriting Xcode's build environment.
+
 ### 2. Open the Godot project
 
 Open `GodotProject/` in Godot 4. Godot will automatically load `MyExtension.gdextension` and register the `SpinningCube` node type.
@@ -94,7 +108,9 @@ The Makefile also includes terminal LLDB helpers if you prefer a command-line de
 
 ### One-time setup: re-sign Godot
 
-The official Godot binary is signed without the `com.apple.security.get-task-allow` entitlement, which macOS requires before an external debugger can attach. Re-sign it once with an ad-hoc signature that includes that entitlement:
+The official Godot binary is signed without the `com.apple.security.get-task-allow` entitlement, which macOS requires before an external debugger can attach. The Xcode workflow's `make prepare-godot-debug` target signs a copied Godot app under `GodotProject/.debug/`, so you usually do not need to modify `/Applications/Godot.app`.
+
+If you prefer to attach Xcode to your normal installed Godot app, re-sign it once with an ad-hoc signature that includes that entitlement:
 
 ```bash
 # Clear any Gatekeeper quarantine flags first
