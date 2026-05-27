@@ -193,7 +193,7 @@ Open it in Xcode and select the shared `<ProjectName>-Godot` scheme:
 
 `make prepare-godot-debug` copies `/Applications/Godot.app` into `GodotProject/.debug/Godot.app` and signs that copy with `godot-debug.entitlements`, leaving the normal installed Godot app untouched. `GodotProject/.debug/` is ignored by Git.
 
-The shared scheme uses `$(PROJECT_DIR)` for project-relative paths. If your Xcode version does not expand `$(PROJECT_DIR)` in a scheme launch path, regenerate or edit the scheme to use that generated project's absolute path.
+The scaffold script writes the generated repo's absolute path into the shared scheme. Xcode's LLDB launcher does not reliably expand `$(PROJECT_DIR)` in the executable path field, so regenerate the project or edit the scheme if you move the generated folder.
 
 Open `GodotProject/` in Godot.
 

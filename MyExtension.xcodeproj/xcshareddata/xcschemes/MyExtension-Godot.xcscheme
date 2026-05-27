@@ -36,7 +36,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "$(PROJECT_DIR)"
+      customWorkingDirectory = "__PROJECT_ROOT__"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
@@ -46,7 +46,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Prepare debug Godot"
-               scriptText = "cd &quot;${PROJECT_DIR}&quot;&#10;/usr/bin/make prepare-godot-debug">
+               scriptText = "cd &quot;__PROJECT_ROOT__&quot;&#10;/usr/bin/make prepare-godot-debug">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
@@ -61,7 +61,7 @@
       </PreActions>
       <PathRunnable
          runnableDebuggingMode = "0"
-         FilePath = "$(PROJECT_DIR)/GodotProject/.debug/Godot.app/Contents/MacOS/Godot">
+         FilePath = "__PROJECT_ROOT__/GodotProject/.debug/Godot.app/Contents/MacOS/Godot">
       </PathRunnable>
       <MacroExpansion>
          <BuildableReference
@@ -78,7 +78,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "$(PROJECT_DIR)/GodotProject"
+            argument = "__PROJECT_ROOT__/GodotProject"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -88,11 +88,11 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "$(PROJECT_DIR)"
+      customWorkingDirectory = "__PROJECT_ROOT__"
       debugDocumentVersioning = "YES">
       <PathRunnable
          runnableDebuggingMode = "0"
-         FilePath = "$(PROJECT_DIR)/GodotProject/.debug/Godot.app/Contents/MacOS/Godot">
+         FilePath = "__PROJECT_ROOT__/GodotProject/.debug/Godot.app/Contents/MacOS/Godot">
       </PathRunnable>
       <MacroExpansion>
          <BuildableReference
@@ -109,7 +109,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "$(PROJECT_DIR)/GodotProject"
+            argument = "__PROJECT_ROOT__/GodotProject"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

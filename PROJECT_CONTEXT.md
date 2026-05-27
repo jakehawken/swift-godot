@@ -42,7 +42,7 @@ Run `make toolchain` to confirm which Swift CLI the Makefile uses. `SWIFT_BIN` p
 - `Cmd-R` builds the external target, prepares a debug-signed Godot copy under `GodotProject/.debug/Godot.app`, then launches that copy through Xcode's LLDB launcher.
 - The external target intentionally sets `passBuildSettingsInEnvironment = 0`; letting Xcode inject its build environment into SwiftPM can break SwiftGodot generated builds.
 - The Makefile remains the source of truth for the Swift CLI through `SWIFT_BIN`.
-- The shared scheme uses `$(PROJECT_DIR)` rather than a checked-in absolute project path.
+- The checked-in shared scheme uses a `__PROJECT_ROOT__` placeholder. `scripts/create_project.sh` replaces it with the generated repo's absolute path because Xcode's LLDB launcher does not reliably expand `$(PROJECT_DIR)` in the executable path field.
 - The debug Godot copy is ignored by Git and signed with `godot-debug.entitlements` because the notarized `/Applications/Godot.app` build denies debugger attach.
 
 ## Template Notes
@@ -50,7 +50,7 @@ Run `make toolchain` to confirm which Swift CLI the Makefile uses. `SWIFT_BIN` p
 - Use `scripts/create_project.sh` to generate a renamed project from this template.
 - The script accepts `--name`, `--template`, and `--dest`, and updates the Swift package, source folder, GDExtension file, dylib references, and Godot project name.
 - The script recreates minimal `.godot` extension-load files for the generated project while leaving noisy editor/cache metadata ignored.
-- The script also renames the Xcode project and shared scheme for the generated project.
+- The script also renames the Xcode project and shared scheme for the generated project, then stamps the generated repo path into the scheme.
 
 ## Commit Notes
 

@@ -79,7 +79,7 @@ Open `MyExtension.xcodeproj` in Xcode and select the shared `MyExtension-Godot` 
 
 `make prepare-godot-debug` copies `/Applications/Godot.app` into `GodotProject/.debug/Godot.app` and signs that copy with `godot-debug.entitlements` so Xcode can debug it. The normal `/Applications/Godot.app` remains untouched, and `GodotProject/.debug/` is ignored by Git.
 
-The shared Xcode scheme uses `$(PROJECT_DIR)` instead of a checked-in absolute project path so scaffolded projects can move between folders.
+The scaffold script writes the generated repo's absolute path into the shared Xcode scheme. Xcode's LLDB launcher does not reliably expand `$(PROJECT_DIR)` in the executable path field, so regenerate the project or edit the scheme if you move the generated folder.
 The external target deliberately keeps the Makefile as the source of truth for the Swift toolchain instead of inheriting Xcode's build environment.
 
 ### 2. Open the Godot project

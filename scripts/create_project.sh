@@ -67,6 +67,11 @@ if [[ -z "$destination" ]]; then
     destination="$PWD/$project_name"
 fi
 
+case "$destination" in
+    /*) ;;
+    *) destination="$PWD/$destination" ;;
+esac
+
 if [[ -e "$destination" ]]; then
     echo "Destination already exists: $destination" >&2
     exit 1
@@ -170,6 +175,11 @@ for file in "${replace_files[@]}"; do
         perl -0pi -e "s/godot-swift/$project_name/g; s/MyFirstGame/$project_name/g; s/MyExtension/$project_name/g; s/libMyExtension/lib$project_name/g" "$file"
     fi
 done
+
+if [[ -f "$new_scheme" ]]; then
+    project_root_xml="$(printf '%s' "$destination" | perl -0pe 's/&/&amp;/g; s/"/&quot;/g; s/</&lt;/g; s/>/&gt;/g')"
+    PROJECT_ROOT_XML="$project_root_xml" perl -0pi -e 's/__PROJECT_ROOT__/$ENV{PROJECT_ROOT_XML}/g' "$new_scheme"
+fi
 
 cat <<EOF
 Created SwiftGodot project:
