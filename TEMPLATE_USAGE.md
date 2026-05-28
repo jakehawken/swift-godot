@@ -64,6 +64,8 @@ git init
 
 The template uses `MyExtension` for the Swift extension and `MyFirstGame` for the Godot project name. Rename these deliberately so SwiftPM, the generated dylib, and Godot's `.gdextension` file stay in agreement.
 
+Skip this section if you used `scripts/create_project.sh`; the scaffold script performs these renames for you. Use the manual steps below only if you copied the template by hand or need to repair a custom rename.
+
 ### Swift Package
 
 Edit `SwiftExtension/Package.swift`:
@@ -151,6 +153,12 @@ From the repo root:
 
 ```bash
 make
+```
+
+To list available commands:
+
+```bash
+make help
 ```
 
 Build output is quiet by default. Use this if you want the full SwiftPM output:

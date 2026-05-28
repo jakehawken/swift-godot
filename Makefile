@@ -21,10 +21,24 @@ SWIFT_BUILD_FLAGS := --quiet
 Q := @
 endif
 
-.PHONY: all debug release test toolchain verify doctor status open prepare-godot-debug debug-run debug-attach clean-bin clean
+.PHONY: all help debug release test toolchain verify doctor status open prepare-godot-debug debug-run debug-attach clean-bin clean
 
 # Default: debug build
 all: debug
+
+help:
+	@echo "SwiftGodot template commands:"
+	@echo "  make                         Build the debug Swift extension and copy dylibs."
+	@echo "  make release                 Build the release Swift extension and copy dylibs."
+	@echo "  make verify                  Check copied dylibs and GDExtension metadata."
+	@echo "  make doctor                  Alias for make verify."
+	@echo "  make open                    Open GodotProject with /Applications/Godot.app."
+	@echo "  make prepare-godot-debug     Copy and sign Godot for Xcode Cmd-R debugging."
+	@echo "  make debug-run               Launch Godot under terminal LLDB."
+	@echo "  make debug-attach            Attach terminal LLDB to a running Godot process."
+	@echo "  make clean-bin               Remove copied dylibs from GodotProject/bin."
+	@echo "  make toolchain               Print the Swift CLI selected by SWIFT_BIN."
+	@echo "  make VERBOSE=1               Show full SwiftPM build output."
 
 debug:
 	@echo "Building debug Swift extension..."

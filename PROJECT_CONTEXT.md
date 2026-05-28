@@ -48,6 +48,7 @@ Run `make toolchain` to confirm which Swift CLI the Makefile uses. `SWIFT_BIN` p
 ## Template Notes
 
 - Use `scripts/create_project.sh` to generate a renamed project from this template.
+- Keep the README's first-screen path focused on generating a new project; in-place template build instructions should remain secondary.
 - The script accepts `--name`, `--template`, and `--dest`, and updates the Swift package, source folder, GDExtension file, dylib references, and Godot project name.
 - The script recreates minimal `.godot` extension-load files for the generated project while leaving noisy editor/cache metadata ignored.
 - The script also renames the Xcode project and shared scheme for the generated project, then stamps the generated repo path into the scheme.

@@ -188,5 +188,9 @@ Created SwiftGodot project:
 Next steps:
   cd "$destination"
   make
-  open GodotProject/ in Godot
+  make verify
+  open "$project_name.xcodeproj"
+
+In Xcode, select the shared "$project_name-Godot" scheme and press Cmd-R.
+You can also open GodotProject/ directly in Godot.
 EOF

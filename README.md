@@ -6,6 +6,22 @@ A barebones Godot 4 project with a Swift GDExtension, powered by [SwiftGodot](ht
 
 Run `make` commands from this repo root, where the `Makefile` lives. Open `GodotProject/` in Godot; it is the Godot project folder inside the larger SwiftGodot template repo.
 
+## Create a new project
+
+Use the scaffold script from this template repo:
+
+```bash
+scripts/create_project.sh --name MySwiftProject --dest ../MySwiftProject
+cd ../MySwiftProject
+make
+make verify
+open MySwiftProject.xcodeproj
+```
+
+In Xcode, select the shared `MySwiftProject-Godot` scheme and press **Cmd-R** to build the Swift extension, prepare a debug-signed Godot copy, and run the Godot project under Xcode's debugger.
+
+See [TEMPLATE_USAGE.md](TEMPLATE_USAGE.md) for more scaffold options, including creating a project from an explicit local template path or git URL.
+
 ## Project layout
 
 ```
@@ -26,7 +42,7 @@ godot-swift/
 - [Godot 4.6](https://godotengine.org/download/) has been verified with this project. SwiftGodot's upstream README currently describes Godot 4.4 support, so prefer the version recorded in `GodotProject/project.godot` unless you are intentionally testing another Godot release.
 - Xcode / Swift toolchain. This repo was verified with Swift 6.3.1, while the extension package itself declares Swift tools 5.9.
 
-## Getting started
+## Build and run this project
 
 ### 1. Build the Swift extension
 
@@ -51,6 +67,12 @@ make verify
 `make verify` also checks `GodotProject/.godot/extension_list.cfg`, which is intentionally kept in the repo so Godot loads `MyExtension.gdextension` from a clean checkout. Other `.godot` editor/cache files remain ignored.
 
 `make doctor` is also available as an alias for `make verify`.
+
+To list the available Makefile commands:
+
+```bash
+make help
+```
 
 To remove only the copied dylibs from `GodotProject/bin/` without clearing SwiftPM's build cache:
 
