@@ -73,8 +73,8 @@ copy-libs:
 	@test -f "$(SWIFT_PKG_DIR)/.build/$(CONFIG)/libSwiftGodot.dylib" || \
 		(echo "Missing SwiftGodot runtime dylib: $(SWIFT_PKG_DIR)/.build/$(CONFIG)/libSwiftGodot.dylib" >&2; \
 		 echo "Run 'make VERBOSE=1' to see the full Swift build output." >&2; exit 1)
-	$(Q)cp "$(SWIFT_PKG_DIR)/.build/$(CONFIG)/$(LIB_NAME).dylib" "$(GODOT_BIN_DIR)/"
-	$(Q)cp "$(SWIFT_PKG_DIR)/.build/$(CONFIG)/libSwiftGodot.dylib" "$(GODOT_BIN_DIR)/"
+	$(Q)/usr/bin/ditto "$(SWIFT_PKG_DIR)/.build/$(CONFIG)/$(LIB_NAME).dylib" "$(GODOT_BIN_DIR)/$(LIB_NAME).dylib"
+	$(Q)/usr/bin/ditto "$(SWIFT_PKG_DIR)/.build/$(CONFIG)/libSwiftGodot.dylib" "$(GODOT_BIN_DIR)/libSwiftGodot.dylib"
 	@echo "Copied $(LIB_NAME).dylib and libSwiftGodot.dylib to $(GODOT_BIN_DIR)."
 
 verify:
